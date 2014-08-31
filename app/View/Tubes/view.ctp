@@ -26,6 +26,21 @@
 			<?php echo h($tube['Tube']['testable']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('New'); ?></dt>
+		<dd>
+			<?php echo h($tube['Tube']['newQty']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Used'); ?></dt>
+		<dd>
+			<?php echo h($tube['Tube']['usedQty']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Unknown'); ?></dt>
+		<dd>
+			<?php echo h($tube['Tube']['unknownQty']); ?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -44,8 +59,8 @@
 	</ul>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Mtbs'); ?></h3>
 	<?php if (!empty($tube['Mtb'])): ?>
+	<h3><?php echo __('Manufacturers'); ?></h3>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
@@ -72,11 +87,6 @@
 	</table>
 <?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Mtb'), array('controller' => 'mtbs', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
 </div>
 <div class="related">
 	<h3><?php echo __('In Boxes'); ?></h3>
@@ -99,7 +109,7 @@
 			<td><?php echo $box['location_id']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'boxes', 'action' => 'view', $box['id'])); ?>
-				<?php //echo $this->Html->link(__('Edit'), array('controller' => 'boxes', 'action' => 'edit', $box['id'])); ?>
+				<?php echo $this->Html->link(__('Edit Qty'), array('controller' => 'tubes', 'action' => 'editqty', $tube['Tube']['id'],$box['id'])); ?>
 				<?php //echo $this->Form->postLink(__('Delete'), array('controller' => 'boxes', 'action' => 'delete', $box['id']), array(), __('Are you sure you want to delete # %s?', $box['id'])); ?>
 			</td>
 		</tr>
@@ -108,11 +118,6 @@
 <?php //debug($box);?>
 <?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Box'), array('controller' => 'boxes', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
 </div>
 <div class="related">
 	<h3><?php echo __('Related Tags'); ?></h3>

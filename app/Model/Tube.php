@@ -15,6 +15,12 @@ class Tube extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
+	public $order = 'name';
+	public $virtualFields = array(
+		'newQty' => 'select sum(newQty) from boxes_tubes where boxes_tubes.tube_id=Tube.id',
+		'usedQty' => 'select sum(usedQty) from boxes_tubes where boxes_tubes.tube_id=Tube.id',
+		'unknownQty' => 'select sum(unknownQty) from boxes_tubes where boxes_tubes.tube_id=Tube.id',
+	);
 
 /**
  * Validation rules
@@ -54,6 +60,10 @@ class Tube extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'Transaction' => array(
+			'className' => 'Transaction',
+			'foreignKey' => 'tube_id'
 		)
 	);
 

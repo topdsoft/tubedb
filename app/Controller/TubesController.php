@@ -89,6 +89,69 @@ class TubesController extends AppController {
 	}
 
 /**
+ * editqty method
+ *
+ * @throws NotFoundException
+ * @param string $tube_id
+ * @param string $box_id
+ * @return void
+ */
+	public function editqty($tube_id = null, $box_id = null) {
+		if (!$this->Tube->exists($tube_id)) {
+			throw new NotFoundException(__('Invalid tube'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			//return from user submit
+			$oldData=$this->Tube->BoxesTube->find('first',array(
+				'conditions' => array('tube_id'=>$tube_id,'box_id'=>$box_id),
+			));
+			if (($oldData['BoxesTube']['newQty']+$oldData['BoxesTube']['usedQty']+$oldData['BoxesTube']['unknownQty'])!=($this->request->data['BoxesTube']['newQty']+$this->request->data['BoxesTube']['usedQty']+$this->request->data['BoxesTube']['unknownQty'])) {
+				//if total qty changes then create a transaction
+				$this->Tube->Transaction->create();
+				if (!$this->Tube->Transaction->save(array('Transaction'=>array(
+					'tube_id'=>$oldData['BoxesTube']['tube_id'],
+					'box_id'=>$oldData['BoxesTube']['box_id'],
+					'newQty'=>$this->request->data['BoxesTube']['newQty']-$oldData['BoxesTube']['newQty'],
+					'usedQty'=>$this->request->data['BoxesTube']['usedQty']-$oldData['BoxesTube']['usedQty'],
+					'unknownQty'=>$this->request->data['BoxesTube']['unknownQty']-$oldData['BoxesTube']['unknownQty'],
+				)))) {
+					//failed to save transaction
+					$this->Session->setFlash(__('The transaction could not be saved.'));
+					return $this->redirect(array('action' => 'index'));
+				}//endif transaction save
+// debug('trans');
+			}//endif transaction
+// debug($oldData);debug($this->request->data);exit;
+			if ($this->Tube->BoxesTube->save($this->request->data)) {
+				$this->Session->setFlash(__('The tube qty has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The tube qty could not be saved. Please, try again.'));
+			}
+		} else {
+			//get tube data
+			$this->request->data = $this->Tube->BoxesTube->find('first',array(
+				'conditions' => array('tube_id'=>$tube_id,'box_id'=>$box_id),
+			));
+			$tube=$this->Tube->find('first',array(
+				'conditions'=>array('Tube.id'=>$tube_id),
+				'fields'=>array('Tube.name'),
+				'recursive'=>0
+			));
+			$this->Tube->Box->Behaviors->load('Containable');
+			$box=$this->Tube->Box->find('first',array(
+				'conditions'=>array('Box.id'=>$box_id),
+				'fields'=>array('Box.id','Box.name','Location.id','Location.name'),
+				'contain'=>array('Location.name','Location.id')
+			));
+			$this->set(compact('box','tube'));
+// debug($box);
+// 			$options = array('conditions' => array('Tube.' . $this->Tube->primaryKey => $id));
+// 			$this->request->data = $this->Tube->find('first', $options);
+		}
+	}
+
+/**
  * delete method
  *
  * @throws NotFoundException

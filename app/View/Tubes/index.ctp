@@ -4,6 +4,9 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th><?php echo $this->Paginator->sort('newQty'); ?></th>
+			<th><?php echo $this->Paginator->sort('usedQty'); ?></th>
+			<th><?php echo $this->Paginator->sort('unknownQty'); ?></th>
 			<th><?php echo $this->Paginator->sort('testable'); ?></th>
 			<th></th>
 	</tr>
@@ -12,11 +15,14 @@
 	<?php foreach ($tubes as $tube): ?>
 	<tr>
 		<td><?php echo h($tube['Tube']['name']); ?>&nbsp;</td>
+		<td><?php echo h($tube['Tube']['newQty']); ?>&nbsp;</td>
+		<td><?php echo h($tube['Tube']['usedQty']); ?>&nbsp;</td>
+		<td><?php echo h($tube['Tube']['unknownQty']); ?>&nbsp;</td>
 		<td><?php echo h($tube['Tube']['testable']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $tube['Tube']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $tube['Tube']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $tube['Tube']['id']), array(), __('Are you sure you want to delete # %s?', $tube['Tube']['id'])); ?>
+			<?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $tube['Tube']['id']), array(), __('Are you sure you want to delete # %s?', $tube['Tube']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

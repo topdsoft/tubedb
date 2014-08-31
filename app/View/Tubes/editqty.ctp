@@ -1,12 +1,13 @@
 <div class="tubes form">
-<?php echo $this->Form->create('Tube'); ?>
+<?php echo $this->Form->create('BoxesTube'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Tube'); ?></legend>
+		<legend><?php echo __('Edit Qty Tube: '.$tube['Tube']['name']); ?></legend>
+		<h3><?php echo 'Box: '.$box['Box']['name'].' at Location: '.$box['Location']['name'] ?></h3>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('name');
-		echo $this->Form->input('testable');
-// 		echo $this->Form->input('Box');
+		echo $this->Form->input('newQty');
+		echo $this->Form->input('usedQty');
+ 		echo $this->Form->input('unknownQty');
 // 		echo $this->Form->input('Tag');
 // debug($this->Form->data);
 	?>
