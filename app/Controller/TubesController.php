@@ -108,4 +108,46 @@ class TubesController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+	public function import() {
+		if (isset($this->data['Tube']['upload'])) {
+			//returning with uploaded file
+			$file=fopen($_FILES['data']['tmp_name']['Tube']['upload'],'r');
+			while($row=fgetcsv($file)) {
+				//loop for all rows in file
+				if(!empty($row[0]) && $row[1]>0) {
+					//skip blank lines and 0 qty
+					$tube=$this->Tube->find('first',array('conditions'=>array('Tube.name'=>$row[0])));
+					if($tube) {
+						//existing
+						$tube_id=$tube['Tube']['id'];
+//debug($tube);
+					} else {
+						//need to create
+						$this->Tube->create();
+						$this->Tube->save(array('Tube'=>array('name'=>$row[0])));
+						$tube_id=$this->Tube->getInsertId();
+					}//endif
+					$box=$this->Tube->Box->find('first',array('conditions'=>array('Box.name'=>$row[2])));
+					if($box) {
+						//box exists
+						$box_id=$box['Box']['id'];
+					} else {
+						//create box
+						$this->Tube->Box->create();
+						$this->Tube->Box->save(array('Box'=>array('name'=>$row[2])));
+						$box_id=$this->Tube->Box->getInsertId();
+					}//endif box exists
+					//create boxes_tubes record
+					$this->Tube->BoxesTube->create();
+					$this->Tube->BoxesTube->save(array('BoxesTube'=>array(
+						'box_id'=>$box_id,
+						'tube_id'=>$tube_id,
+						'unknownQty'=>$row[1])));
+				}//endif empty
+			}//end while loop for all rows in file
+debug($box);
+debug($row);debug($tube_id);exit;
+		}
+	}
 }

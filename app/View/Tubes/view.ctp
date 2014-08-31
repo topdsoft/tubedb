@@ -79,32 +79,33 @@
 	</div>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Boxes'); ?></h3>
+	<h3><?php echo __('In Boxes'); ?></h3>
 	<?php if (!empty($tube['Box'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Created'); ?></th>
-		<th><?php echo __('Modified'); ?></th>
 		<th><?php echo __('Name'); ?></th>
-		<th><?php echo __('Location Id'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
+		<th><?php echo __('New Qty'); ?></th>
+		<th><?php echo __('Used Qty'); ?></th>
+		<th><?php echo __('Unknown Qty'); ?></th>
+		<th><?php echo __('Location'); ?></th>
+		<th></th>
 	</tr>
 	<?php foreach ($tube['Box'] as $box): ?>
 		<tr>
-			<td><?php echo $box['id']; ?></td>
-			<td><?php echo $box['created']; ?></td>
-			<td><?php echo $box['modified']; ?></td>
 			<td><?php echo $box['name']; ?></td>
+			<td><?php echo $box['BoxesTube']['newQty']; ?></td>
+			<td><?php echo $box['BoxesTube']['usedQty']; ?></td>
+			<td><?php echo $box['BoxesTube']['unknownQty']; ?></td>
 			<td><?php echo $box['location_id']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'boxes', 'action' => 'view', $box['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'boxes', 'action' => 'edit', $box['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'boxes', 'action' => 'delete', $box['id']), array(), __('Are you sure you want to delete # %s?', $box['id'])); ?>
+				<?php //echo $this->Html->link(__('Edit'), array('controller' => 'boxes', 'action' => 'edit', $box['id'])); ?>
+				<?php //echo $this->Form->postLink(__('Delete'), array('controller' => 'boxes', 'action' => 'delete', $box['id']), array(), __('Are you sure you want to delete # %s?', $box['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>
+<?php //debug($box);?>
 <?php endif; ?>
 
 	<div class="actions">

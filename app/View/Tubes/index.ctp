@@ -3,20 +3,14 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('testable'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+			<th></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($tubes as $tube): ?>
 	<tr>
-		<td><?php echo h($tube['Tube']['id']); ?>&nbsp;</td>
-		<td><?php echo h($tube['Tube']['created']); ?>&nbsp;</td>
-		<td><?php echo h($tube['Tube']['modified']); ?>&nbsp;</td>
 		<td><?php echo h($tube['Tube']['name']); ?>&nbsp;</td>
 		<td><?php echo h($tube['Tube']['testable']); ?>&nbsp;</td>
 		<td class="actions">
